@@ -12,23 +12,24 @@ class RegisterContoller extends Controller
         return view('register.register');
     }
 
-    public function register()
+    public function store()
     {
+        // dd(request()->all());
         $user = request()->validate([
             'name' => 'required',
-            'email' => 'required|unique:users,email',
+            'email' => 'required|unique:users,email|email',
             'contact_no' => 'required',
             'home_address' => 'required',
-            'password' => 'required| min:3',
+            'password' => 'required|min:3|confirmed',
         ]);
 
         if($user)
         {
             $user_login = User::create($user);
             auth()->login($user_login);
-            return redirect('/view')->with('success','User Saved Successfully');
+            return redirect('/product/view')->with('success','User Saved Successfully');
         }else{
-            return redirect('/register')->with('error','User Not Saved');
+            return redirect('register/view')->with('error','User Not Saved');
         }
 
     }

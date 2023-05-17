@@ -20,11 +20,12 @@ Route::get('/',[LoginContoller::class,'index']);
 
 Route::prefix('login')->group(function(){
     Route::post('/login',[LoginContoller::class,'login']);
+    Route::post('/logout',[LoginContoller::class,'logout']);
 });
 
 Route::prefix('register')->group(function(){
     Route::get('/view',[RegisterContoller::class,'index']);
-    Route::post('/register',[RegisterContoller::class,'register']);
+    Route::post('/store',[RegisterContoller::class,'store']);
 });
 
 Route::prefix('product')->group(function(){

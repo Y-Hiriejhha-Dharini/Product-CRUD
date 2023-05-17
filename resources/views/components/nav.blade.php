@@ -9,14 +9,28 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="register/view">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Login</a>
-                </li>
-            </ul>
+            @auth
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-current="page" href="">Welcome {{auth()->user()->name}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="/login/logout" method="POST">
+                            @csrf
+                            <button class="nav-link btn" style="background-color:transparent" type="submit">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            @else
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="register/view">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Login</a>
+                    </li>
+                </ul>
+            @endauth
       </div>
     </div>
   </nav>
