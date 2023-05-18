@@ -29,5 +29,6 @@ Route::prefix('register')->group(function(){
     Route::post('/user_add',[RegisterContoller::class,'user_add']);
     Route::get('/user_edit/{UserDetails:id}',[RegisterContoller::class,'user_edit']);
     Route::get('/user_delete/{UserDetails:id}',[RegisterContoller::class,'user_delete']);
+    Route::get('/search/{data}',[RegisterContoller::class,'user_search']);
 });
 

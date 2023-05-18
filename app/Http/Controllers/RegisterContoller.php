@@ -38,7 +38,7 @@ class RegisterContoller extends Controller
 
     public function user_view()
     {
-        return view('register.view',['users_details' => UserDetails::all()]);
+        return view('register.view',['users_details' => UserDetails::paginate(4)]);
     }
     public function user_add()
     {
@@ -48,15 +48,33 @@ class RegisterContoller extends Controller
             'address' => 'required',
         ]);
 
-        UserDetails::updateOrCreate([
-            'id' => request()->id ?? 0
-        ],[
-            'name' => $user['name'],
-            'email' => $user['email'],
-            'address' => $user['address']
-        ]);
+        // UserDetails::updateOrCreate([
+        //     'id' => request()->id
+        // ],[
+        //     'name' => $user['name'],
+        //     'email' => $user['email'],
+        //     'address' => $user['address']
+        // ]);
 
-        return back()->with('success','Successfully Data Stored');
+        if(!request()->id){
+            UserDetails::create([
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'address' => $user['address']
+            ]);
+            return back()->with('success','Successfully Data Created');
+        }else{
+
+            UserDetails::where('id',request()->id)->update([
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'address' => $user['address']
+            ]);
+
+            return back()->with('success','Successfully Data Updated');
+        }
+
+
     }
     public function user_edit(UserDetails $UserDetails)
     {
@@ -70,6 +88,27 @@ class RegisterContoller extends Controller
             return back()->with('success','Record Deleted Successfully');
         }else{
             return back()->with('error','Record Not Deleted');
+        }
+    }
+
+    public function user_search()
+    {
+        $output="";
+        $users_details = UserDetails::where('email','like','%'.request()->data.'%')->get();
+        if($users_details)
+        {
+            foreach ($users_details as $key => $user) {
+            $output.='<tr>'.
+            '<td>'.$user->name.'</td>'.
+            '<td>'.$user->email.'</td>'.
+            '<td>'.$user->address.'</td>'.
+            '<td>'.
+                '<button type="submit" onclick="editproduct($user->id)" class="btn btn-warning mx-2">EDIT</button>
+                <button type="submit" onclick="deleteproduct($user->id)" class="btn btn-danger mx-2">DELETE</button>'.
+            '</td>'.
+            '</tr>';
+            }
+            return Response($output);
         }
     }
 }

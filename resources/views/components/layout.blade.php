@@ -12,9 +12,12 @@
 
         <!-- Styles -->
         @vite(['resources/js/app.js'])
+
+        <!--Sweet Alert CDN-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     </head>
     <body class="antialiased">
-        <x-nav/>
 
         {{$slot}}
 

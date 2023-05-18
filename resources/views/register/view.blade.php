@@ -1,4 +1,16 @@
 <x-layout>
+    <x-nav/>
+        @if (session()->has('success'))
+            <script>
+                Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your Work Done',
+                showConfirmButton: false,
+                timer: 2500
+            })
+            </script>
+        @endif
     <div class="row col-md-10 mx-auto my-5">
         <div class="row col-md-10 mx-auto my-5">
             <form id="form_data" action="/register/user_add" method="POST" onsubmit="saveform(event)" class="bg-secondary bg-gradient bg-opacity-10 p-5 rounded">
@@ -54,6 +66,10 @@
                     </tr>
                 @endforeach
             </tbody>
+
+            <div class="d-flex">
+                {!! $users_details->links() !!}
+            </div>
           </table>
     </div>
     <script>
@@ -95,9 +111,32 @@
         }
         function deleteproduct(id)
         {
-            $.ajax({
+            Swal.fire({
+            title: 'Do you want to delete?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
                 url: APP_URL + "/register/user_delete/"+id,
                 success: function(data) {
+                }
+            });
+            }
+            })
+        }
+
+        function checkDetails(event)
+        {
+            event.preventDefault();
+            $.ajax({
+                url: APP_URL + "/register/search/"+$('#search').val(),
+                success: function(data) {
+                    console.log(data[0]);
+                        $('tbody').html(data);
                 }
             });
         }
