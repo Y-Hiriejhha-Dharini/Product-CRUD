@@ -12,7 +12,7 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Pasword</label>
-                <input type="text" name="password" class="form-control" id="email" placeholder="Enter Password" required>
+                <input type="password" name="password" class="form-control" id="email" placeholder="Enter Password" required>
                 @error('password')
                     <p class="text-danger fs-6 text mt-2">{{$message}}</p>
                 @enderror

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserDetails;
+use Faker\Provider\UserAgent;
 use Illuminate\Http\Request;
 
 class RegisterContoller extends Controller
@@ -27,10 +29,38 @@ class RegisterContoller extends Controller
         {
             $user_login = User::create($user);
             auth()->login($user_login);
-            return redirect('/product/view')->with('success','User Saved Successfully');
+            return redirect('/register/user_view')->with('success','User Saved Successfully');
         }else{
-            return redirect('register/view')->with('error','User Not Saved');
+            return redirect('/register/view')->with('error','User Not Saved');
         }
 
     }
+
+    public function user_view()
+    {
+        return view('register.view',['users_details' => UserDetails::all()]);
+    }
+    public function user_add()
+    {
+        $user = request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+        ]);
+
+        UserDetails::updateOrCreate([
+            'id' => request()->id ?? 0
+        ],[
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'address' => $user['address']
+        ]);
+
+        return back()->with('success','Successfully Data Stored');
+    }
+    public function user_edit(UserDetails $UserDetails)
+    {
+        return $UserDetails;
+    }
+    
 }

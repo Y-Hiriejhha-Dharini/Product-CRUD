@@ -21,7 +21,7 @@ class LoginContoller extends Controller
         if(auth()->attempt($user))
         {
             session()->regenerate();
-            return redirect('/product/view')->with('success','User Loged In Successfully');
+            return redirect('/register/user_view')->with('success','User Loged In Successfully');
         }else{
             return back()->withErrors(['email' =>'Provided Credential are not matched']);
         }
