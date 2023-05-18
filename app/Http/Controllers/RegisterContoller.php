@@ -62,5 +62,14 @@ class RegisterContoller extends Controller
     {
         return $UserDetails;
     }
-    
+    public function user_delete(UserDetails $UserDetails)
+    {
+        if($UserDetails)
+        {
+            $UserDetails->delete();
+            return back()->with('success','Record Deleted Successfully');
+        }else{
+            return back()->with('error','Record Not Deleted');
+        }
+    }
 }

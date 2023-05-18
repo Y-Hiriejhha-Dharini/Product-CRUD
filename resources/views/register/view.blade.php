@@ -44,9 +44,9 @@
                 @foreach ($users_details as $user)
                     <tr>
                         <input type="hidden" value="{{$user->id}}"  name="id" id="id">
-                        <td><input type="text" value="{{$user->name}}" name="name" id="name"></td>
-                        <td><input type="text" value="{{$user->email}}" name="email" id="email"></td>
-                        <td><input type="text" value="{{$user->address}}" name="address" id="home_address"></td>
+                        <td><input type="text" style="border:none; background: transparent;" value="{{$user->name}}" name="name" id="name"></td>
+                        <td><input type="text" style="border:none; background: transparent;" value="{{$user->email}}" name="email" id="email"></td>
+                        <td><input type="text" style="border:none; background: transparent;" value="{{$user->address}}" name="address" id="home_address"></td>
                         <td>
                             <button type="submit" onclick="editproduct({{$user->id}})" class="btn btn-warning mx-2">EDIT</button>
                             <button type="submit" onclick="deleteproduct({{$user->id}})" class="btn btn-danger mx-2">DELETE</button>
@@ -93,6 +93,13 @@
                 }
             });
         }
-       
+        function deleteproduct(id)
+        {
+            $.ajax({
+                url: APP_URL + "/register/user_delete/"+id,
+                success: function(data) {
+                }
+            });
+        }
     </script>
 </x-layout>
